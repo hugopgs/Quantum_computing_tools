@@ -31,7 +31,7 @@ This is a list of functions that I often use will doing quantum computing. Some 
 ## Installation
 Ensure you have Python and the required dependencies installed:
 ```bash
-pip install qiskit scipy numpy
+pip install -r requirements.txt
 ```
 
 ## Usage
