@@ -24,9 +24,9 @@ This is a list of functions that I often use will doing quantum computing. Some 
 - Find ground_state of Hamiltonian
   
 ## Qiskit Hardware
--Initialize the IBMRuntimeService
--Send circuits to simulate on real quantum computer 
--Get results from Job Id
+- Initialize the IBMRuntimeService
+- Send circuits to simulate on real quantum computer 
+- Get results from Job Id
 
 ## Installation
 Ensure you have Python and the required dependencies installed:
