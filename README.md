@@ -1,7 +1,7 @@
 # Quantum Computing Toolbox
 
 ## Overview
-This is a list of function that I often use will doing quantum computing. Some of this function are really easy nd dumb but save some time.
+This is a list of functions that I often use will doing quantum computing. Some of this function are really easy and dumb but save some times.
 
 ## Features
 - **Qiskit tools**: Every function that use the Qiskit package, it's only simulation.
