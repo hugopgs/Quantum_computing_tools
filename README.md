@@ -43,9 +43,8 @@ circuit = gen_quantum_circuit(("X", [0], 1.0), 2)
 expectation = get_expectation_value(circuit, "Z")
 ```
 
-## Contributing
-Feel free to contribute by adding new functionalities, improving documentation, or optimizing existing code.
+
 
 ## License
-This project is open-source under the MIT License.
+This project is open-source under the Apache 2.0 License.
 
