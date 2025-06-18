@@ -1,6 +1,6 @@
 # Quantum_computing_tools Module
 
-This repository provides a collection of Python utilities built on Qiskit for:
+This repository provides a collection of Python utilities for:
 
 - Constructing and serializing Qiskit quantum circuits
 - Converting between circuit representations (QASM, matrices, operators)
