@@ -385,3 +385,78 @@ def split_list_into_n_sublists(lst, n):
         sublists.append(lst[start:end])
         start = end
     return sublists
+
+
+def get_noise_from_spectrum(Frequency, Amplitude, peak_exclusion_ratio=0.05, use_mad=False):
+    """
+    Estimate the noise level in a spectrum by excluding the peak region.
+    
+    Args:
+        Frequency (list or np.ndarray): Frequency values.
+        Amplitude (list or np.ndarray): Corresponding amplitude values (spectrum).
+        peak_exclusion_ratio (float): Fraction of frequency range to exclude around the peak.
+        use_mad (bool): If True, use Median Absolute Deviation instead of standard deviation.
+    
+    Returns:
+        dict: {
+            'noise_std': Estimated standard deviation of noise,
+            'noise_mean': Mean value of noise region,
+            'method': 'mad' or 'std'
+        }
+    """
+    Frequency = np.array(Frequency)
+    Amplitude = np.array(Amplitude)
+
+    # Find the peak
+    peak_index = np.argmax(Amplitude)
+    peak_freq = Frequency[peak_index]
+
+    # Define exclusion window around the peak
+    delta_f = peak_exclusion_ratio * (Frequency[-1] - Frequency[0])
+    mask = (Frequency < peak_freq - delta_f) | (Frequency > peak_freq + delta_f)
+
+    # Extract noise region
+    noise_region = Amplitude[mask]
+
+    if use_mad:
+        # Robust estimation using MAD
+        mad = np.median(np.abs(noise_region - np.median(noise_region)))
+        noise_std = mad / 0.6745  # For Gaussian noise
+        method = 'mad'
+    else:
+        noise_std = np.std(noise_region)
+        method = 'std'
+
+    noise_mean = np.mean(noise_region)
+
+    return {
+        'noise_std': noise_std,
+        'noise_mean': noise_mean,
+        'method': method
+    }
+
+def compute_peak_snr(Frequency, Amplitude, noise_result):
+    """
+    Compute the Signal-to-Noise Ratio (SNR) of the peak in a spectrum.
+    
+    Args:
+        Frequency (list or np.ndarray): Frequencies.
+        Amplitude (list or np.ndarray): Spectrum amplitudes.
+        noise_result (dict): Output from estimate_noise_from_spectrum().
+    
+    Returns:
+        dict: {
+            'snr_linear': SNR as a ratio,
+            'snr_db': SNR in decibels
+        }
+    """
+    peak_amplitude = max(Amplitude)
+    noise_std = noise_result['noise_std']
+    
+    snr_linear = peak_amplitude / noise_std
+    snr_db = 20 * np.log10(snr_linear)
+
+    return {
+        'snr_linear': snr_linear,
+        'snr_db': snr_db
+    }
